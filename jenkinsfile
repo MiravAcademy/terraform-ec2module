@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    stages {
+        
+         stage('Terraform init') {
+            steps {
+                script{
+                    sh "cd ec2instance-us/ && terraform init"
+                }
+            }
+        }
+        
+         stage('Terraform fmt') {
+            steps {
+                script{
+                    sh "cd ec2instance-us/ && terraform fmt"
+                }
+            }
+        }
+        
+        stage('Terraform validate') {
+            steps {
+                script{
+                    sh "cd ec2instance-us/ && terraform validate"
+                }
+            }
+        }
+        
+         stage('Terraform plan') {
+            steps {
+                script{
+                    sh "cd ec2instance-us/ && terraform plan"
+                }
+            }
+        }
+        
+        stage('Terraform apply') {
+            steps {
+                input 'Do you want to deploy infrastructures?'
+                script{
+                    sh "cd ec2instance-us/ && terraform apply"
+                }
+            }
+        }
+    }
+}
